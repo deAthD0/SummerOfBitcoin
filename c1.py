@@ -2,7 +2,7 @@ import pandas as pd
 
 global data
 data = pd.read_csv("mempool.csv") 
-# data= data.sort_values(by='fee',ascending=False) 
+data= data.sort_values(by='fee',ascending=False) 
 
 
 def check_list(row):
@@ -50,9 +50,6 @@ def recurssive_checker():
                             df=df.append(new_Row, ignore_index = True)
                             changed=True
                             recurssive_checker()
-        else:
-            break
-            
         
 
     

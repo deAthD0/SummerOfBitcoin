@@ -38,8 +38,6 @@ print(current_fees)
 # Add transactions
 # replace better values with worse ones
 # Once a value has been changed try to iterate all value
-#  only do after precaution
-
 
 # print(data.info)
 # print(data.dtypes)
