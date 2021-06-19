@@ -24,13 +24,13 @@ def checkParents(row):
                     nRow=temp[0]
                     total_weight=total_weight+data.at[nRow,'weight']
                     current_fees=current_fees+data.at[nRow,'fee']
-                    new_Row={'tx_id':data.at[nRow,'tx_id'], 'fee':data.at[nRow,'fee'], 'weight':data.at[nRow,'weight'],'parents':str(data.at[nRow,'parents '])}
+                    new_Row={'tx_id':data.at[nRow,'tx_id'], 'fee':data.at[nRow,'fee'], 'weight':data.at[nRow,'weight'],'parents ':str(data.at[nRow,'parents '])}
                     df=df.append(new_Row, ignore_index = True)                
 
-        new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents':str(data.at[row,'parents '])}
+        new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents ':str(data.at[row,'parents '])}
         df=df.append(new_Row, ignore_index = True)
     else:
-        new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents':str(data.at[row,'parents '])}
+        new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents ':str(data.at[row,'parents '])}
         df=df.append(new_Row, ignore_index = True)
 
 
@@ -46,7 +46,7 @@ def recurssive_checker():
                         temp_fees=current_fees-df.at[r,'fee']+data.at[row,'fee']
                         if(temp_fees>current_fees):
                             df = df.drop(labels=r, axis=0)
-                            new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents':str(data.at[row,'parents '])}
+                            new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents ':str(data.at[row,'parents '])}
                             df=df.append(new_Row, ignore_index = True)
                             changed=True
                             recurssive_checker()
@@ -76,7 +76,7 @@ for row in data.index:
                 temp_fees=current_fees-df.at[r,'fee']+data.at[row,'fee']
                 if(temp_fees>current_fees):
                     df = df.drop(labels=r, axis=0)
-                    new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents':str(data.at[row,'parents '])}
+                    new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents ':str(data.at[row,'parents '])}
                     df=df.append(new_Row, ignore_index = True)
 
 
@@ -85,8 +85,10 @@ print(df)
 print(total_weight)
 print(current_fees)
 
-# with open('block.txt', 'w') as filehandle:
-# 	for r in df.index:
-# 		filehandle.write('%s\n'+str(df.at[row,'tx_id']))
-
+with open('block.txt', 'w') as filehandle:
+    for r in df.index:
+        try:
+            filehandle.write(str(df.at[r,'tx_id'])+'\n')
+        except:
+            pass
 
