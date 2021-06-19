@@ -52,20 +52,30 @@ def recurssive_checker():
                         recurssive_checker()
         
 def optimizer():
-    for row in data.index:
-        if(check_list(data.at[row,'tx_id'])==True):
-                continue
-        else:
-            for r in df.index:
-                tempw=total_weight-df.at[r,'weight']-df.at[r,'weight']+data.at[row,'weight']
-                temp_fees=current_fees-df.at[r,'fee']+data.at[row,'weight']
-                for temp in range(row,data.index):
-                    if((max_weight>=tempw+data.at[temp,'weight'])) and ((temp_fees+data.at[temp,'fee'])>current_fees):
-                        checkParents(row)
-                        df = df.drop(labels=r, axis=0)
-                        new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents ':str(data.at[row,'parents '])}
-                        df=df.append(new_Row, ignore_index = True)
-                        optimizer()
+
+    changed=False
+    for r in df.index:
+        tempWeight=0
+        tempFee=0
+        l=[]      
+        for row in data.index:
+            tempWeight=tempWeight+data.at[row,'weight']
+            tempFee=tempFee+data.at[row,'fee']
+            if(df.at[r,'weight']>=tempWeight):
+                if(df.at[r,'fee']<tempFee):
+                    tWeight=tempWeight
+                    tFee=tempFee
+                    changed=True
+                    l=l.append(l)
+
+    if(changed==True):
+        df = df.drop(labels=r, axis=0)
+        for row in l:
+            checkParents(row)
+            new_Row={'tx_id':data.at[row,'tx_id'], 'fee':data.at[row,'fee'], 'weight':data.at[row,'weight'],'parents ':str(data.at[row,'parents '])}
+            df=df.append(new_Row, ignore_index = True)
+    
+    optimizer()
 
 
 
